@@ -1,0 +1,24 @@
+# --- Copy A: cheapest test mode (default) - no real Capacity Block needed ---
+# Creates a Terraform-managed on-demand Capacity Reservation instead, using
+# the cheapest widely-available GPU type and a minimal system node group.
+# Validates all the node group / AZ-pinning / device-plugin mechanics for
+# roughly $0.60-0.70/hr all-in (see README cost breakdown), destroyable any
+# time.
+region                 = "us-east-1"   # cheapest / most capacity-plentiful region generally
+name                   = "gpu-cbr-demo"
+test_mode              = true
+gpu_instance_type      = "g4dn.xlarge"
+gpu_node_desired_count = 1
+system_instance_type   = "t3.medium"
+system_node_count      = 1
+enable_efa             = false
+
+# --- Copy B: real Capacity Block - uncomment and fill in after purchasing ---
+# via scripts/find-and-purchase-capacity-block.sh, and set test_mode = false
+#
+# test_mode                              = false
+# capacity_reservation_id                = "cr-0123456789abcdef0"
+# capacity_reservation_availability_zone = "us-east-2b"
+# gpu_instance_type                      = "p5.48xlarge"
+# gpu_node_desired_count                 = 1
+# enable_efa                             = false
