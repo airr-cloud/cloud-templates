@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: gpu-vectoradd-test
+  namespace: default
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      tolerations:
+        - key: "nvidia.com/gpu"
+          operator: "Equal"
+          value: "true"
+          effect: "NoSchedule"
+      nodeSelector:
+        nvidia.com/gpu.present: "true"
+      containers:
+        - name: vectoradd
+          image: nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda11.7.1
+          resources:
+            limits:
+              nvidia.com/gpu: 1
